@@ -18,7 +18,7 @@ export default function AffichageErreur(props) {
                     <button onClick={handleButtonClick} type="button" className={`btn-close`} data-bs-dismiss="toast"></button>
                 </div>
                 <div className="toast-body">
-                    <div className={` ${props.statusRep === 200 ? "alert alert-success" : "alert alert-danger"} `}>
+                    <div className={` ${props.statusRep === '200' ? "alert alert-success" : "alert alert-danger"} `}>
                         <ul>
                             {message.map((messages, index) => (
                                 <li key={index}>{messages}</li>

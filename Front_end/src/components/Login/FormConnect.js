@@ -1,42 +1,31 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import AffichageErreur from './AffichageErreur';
+import AffichageErreur2 from './AffichageErreur2';
 
 function FormConnect(props) {
 
 
     const [posts, setPosts] = useState([]);
-
     const [selectedOption, setSelectedOption] = useState(0);
-
     const [selectedRegion, setSelectedRegion] = useState('');
-
     const [districtRecup, setdistrictRecup] = useState([]);
-
-
 
     const handleOptionChange = (event) => {
         event.persist();
-
         const fonction = event.target.value;
         setSelectedOption(fonction);
-
         setFormDataIncription({ ...formDataInscription, fonction });
     };
 
     const rechercheDistrict = (event) => {
         const region = event.target.value;
         setSelectedRegion(region);
-
         setFormDataIncription({ ...formDataInscription, region });
     }
 
     useEffect(() => {
     }, [selectedOption]);
-
-    // useEffect(() => {
-    // }, [selectedRegion]);
-
 
 
     useEffect(() => {
@@ -47,14 +36,10 @@ function FormConnect(props) {
         })
     }, [])
 
-
-
     const apiUrl = 'http://127.0.0.1:8000/api/circonscriptionDistrict';
-
 
     // Appeler la fonction lorsque l'option est sélectionnée
     useEffect(() => {
-
         const getListDistrict = () => {
             axios.get(apiUrl, {
                 params: {
@@ -76,18 +61,15 @@ function FormConnect(props) {
 
 
     const [etatSelectDistrict, setetatSelectDistrict] = useState('optionNul');
-
     const majDistrict = (event) => {
         var district = event.target.value;
         setetatSelectDistrict(district);
-
         setFormDataIncription({ ...formDataInscription, district });
     }
 
     useEffect(() => {
         setetatSelectDistrict('optionNul');
     }, [selectedRegion]);
-
 
     // STATE D'inscription
     const [formDataInscription, setFormDataIncription] = useState({
@@ -104,7 +86,6 @@ function FormConnect(props) {
     const handleInputInscrChange = (event) => {
         const { name, value } = event.target;
         setFormDataIncription({ ...formDataInscription, [name]: value });
-
     }
 
     const handleSubmitInscr = (event) => {
@@ -144,13 +125,83 @@ function FormConnect(props) {
 
 
 
+    //  C O N N E X I O N  A  L  A P P L I C A T I O N
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+
+    const [notification2, setnotification2] = useState("");
+    const [affichageNotification2, setaffichageNotification2] = useState(false);
+    const [statusReponse2, setstatusReponse2] = useState('');
+
+    const affichageStatus2 = (status) => {
+        setaffichageNotification2(status);
+    }
+
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        try {
+
+            const response = await axios.post('http://127.0.0.1:8000/api/login', { email, password });
+            // Stocker le token dans le localStorage
+            axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+
+
+            setaffichageNotification2(true);
+
+            if (response.data.status === "401") {
+                setnotification2(response.data.messageError);
+                setstatusReponse2(response.data.status);
+
+            } else {
+                if (response.data.status === "200") {
+                    setnotification2(["Connexion réussie"]);
+                    setstatusReponse2(response.data.status);
+                    console.log("Connecter");
+                    localStorage.setItem('token', response.data.token);
+
+
+                    // Rediriger en fonction du rôle
+                    switch (response.data.user.fonction) {
+                        case 0:
+                            window.location.href = "/Administrateur";
+                            break;
+
+                        case 1:
+                            window.location.href = "/DirecteurServiceTopographique";
+                            break;
+
+                        case 2:
+                            window.location.href = "/ConservateurNationale";
+                            break;
+
+                        case 3:
+                            window.location.href = "/ChefServiceRegionaleTopographique";
+                            break;
+
+                        default:
+                            window.location.href = "/ChefCirconscriptionTopographique";
+                            break;
+                    }
+                } else {
+                    console.log("Mots de passe ou email incorrect");
+                    setnotification2(["Mots de passe ou email incorrect"]);
+                    setstatusReponse2(response.data.status);
+
+                }
+
+
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     if (props.formUse === true) {
         return (
-
-
-
             <div className="form-inscription" >
-
                 {
                     affichageNotification === true ? (
                         <AffichageErreur notifications={notification} affichage={affichageStatus} statusRep={statusReponse} ></AffichageErreur>
@@ -200,10 +251,10 @@ function FormConnect(props) {
 
                     {selectedOption === '3' || selectedOption === '4' ? (
                         <div className="input-group input-group-sm mb-3">
-                            <label className="input-group-text" htmlFor="inputGroupSelect01">
+                            <label className="input-group-text" htmlFor="inputGroupSelect02">
                                 Région
                             </label>
-                            <select name='region' className="form-select" id="inputGroupSelect01" onChange={rechercheDistrict} defaultValue="optionNull" >
+                            <select name='region' className="form-select" id="inputGroupSelect02" onChange={rechercheDistrict} defaultValue="optionNull" >
                                 <option value="optionNull" disabled hidden>Choisissez une région</option>
                                 {posts.map(item => (
                                     <option key={item.NomRegion} value={item.NomRegion}>
@@ -232,9 +283,7 @@ function FormConnect(props) {
                     ) : null
                     }
 
-
                     <button type="submit" className="btn btn-primary mt-3" style={{ width: '100%' }}>S'inscrire</button>
-
                 </form >
             </div >
 
@@ -243,15 +292,21 @@ function FormConnect(props) {
     } else {
         return (
             <div className="form-connection">
-                <form id="formcnct" action="{{ route('login.authenticate') }}" method="post">
+                <form id="formcnct" onSubmit={handleLogin}>
+
+                    {
+                        affichageNotification2 === true ? (
+                            <AffichageErreur2 notifications={notification2} affichage={affichageStatus2} statusRep={statusReponse2} ></AffichageErreur2>
+                        ) : null
+                    }
 
                     <div className="input-field">
-                        <input name="email" type="text" className="input" id="email" />
-                        <label htmlFor="email">Email</label>
+                        <input name="mail" type="text" className="input" id="mail" onChange={e => setEmail(e.target.value)} />
+                        <label htmlFor="mail">Email</label>
                     </div>
                     <div className="input-field">
-                        <input name="password" type="password" className="input" id="password" />
-                        <label htmlFor="password">Password</label>
+                        <input name="pass" type="pass" className="input" id="pass" onChange={e => setPassword(e.target.value)} />
+                        <label htmlFor="pass">Password</label>
                     </div>
                     <div className="input-field">
                         <input type="submit" className="submit" value="Log in" />

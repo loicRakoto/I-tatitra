@@ -122,8 +122,8 @@ class UserController extends Controller
                 $users->Telephone = $numero;
                 $users->CIN = $cin;
                 $users->fonction = $fonction;
-                $users->Email = $email;
-                $users->Password = $mdp;
+                $users->email = $email;
+                $users->password = $mdp;
                 $users->circonscription_id = $idcircons;
                 $users->status = false;
 
