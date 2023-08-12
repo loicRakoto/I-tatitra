@@ -264,10 +264,10 @@ function FormConnect(props) {
                             </select>
                             {selectedOption === '4' ? (
                                 <>
-                                    <label className="input-group-text" htmlFor="inputGroupSelect02">Circonscription</label>
+                                    <label className="input-group-text" htmlFor="inputGroupSelect03">Circonscription</label>
                                     <select name='district'
                                         className="form-select"
-                                        id="inputGroupSelect02"
+                                        id="inputGroupSelect03"
                                         onChange={majDistrict} value={etatSelectDistrict}
                                     >
                                         <option value="optionNul" disabled hidden>Choisissez une district</option>
