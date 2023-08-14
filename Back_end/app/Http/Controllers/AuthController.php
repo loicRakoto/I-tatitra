@@ -9,51 +9,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    // public function register(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string',
-    //         'email' => 'required|email|unique:users',
-    //         'password' => 'required|string|min:6',
-    //         'role' => 'required|in:user,admin', // Define valid roles here
-    //     ]);
 
-    //     $user = new User([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => bcrypt($request->password),
-    //         'role' => $request->role,
-    //     ]);
-
-    //     $user->save();
-
-    //     return response()->json(['message' => 'User registered successfully'], 201);
-    // }
-
-    // public function login(Request $request)
-    // {
-    //     $credentials = $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
-
-
-
-    //     if (!Auth::attempt($credentials)) {
-    //         return response()->json(['message' => 'Unauthorized', 'status' => '401'], 401);
-    //     } else {
-
-    //         $user = $request->user();
-
-    //         $token = $user->createToken('authToken')->plainTextToken;
-
-    //         return response()->json([
-    //             'user' => $user,
-    //             'token' => $token,
-    //             'status' => '200'
-    //         ]);
-    //     }
-    // }
 
     public function login(Request $request)
     {

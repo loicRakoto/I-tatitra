@@ -1,9 +1,8 @@
 import React from 'react'
 import VerificationAuth from '../components/VerificationAuth'
-
 function DirecteurServiceTopographique() {
-    VerificationAuth();
 
+    VerificationAuth();
     return (
         <div>DirecteurServiceTopographique</div>
     )

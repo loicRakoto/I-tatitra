@@ -190,7 +190,7 @@ body {
 
 .content-wrap {
     grid-area: content;
-    padding: 3em;
+    padding: 1em;
     overflow: auto;
 }
 

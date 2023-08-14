@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChefCirconscriptionTopographique;
 use App\Http\Controllers\CirconscriptionController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
@@ -18,8 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('login', [LoginController::class, 'login']);
-Route::post('logout', [LoginController::class, 'logout']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -32,12 +31,19 @@ Route::get('/circonscriptionDistrict', [CirconscriptionController::class, 'recup
 Route::post('/Utilisateur/add', [UserController::class, 'store']);
 
 
+//Chef Circonscription Topographique
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/TravauxBornage', [ChefCirconscriptionTopographique::class, 'TravauxBornageAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/TravauxPlanRegulier', [ChefCirconscriptionTopographique::class, 'TravauxPlanRegulierAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/AutresTravaux', [ChefCirconscriptionTopographique::class, 'AutresTravauxAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/TravauxReperage', [ChefCirconscriptionTopographique::class, 'TravauxReperageAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/ReproductionPlan', [ChefCirconscriptionTopographique::class, 'ReproductionPlanAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/AutresReproduction', [ChefCirconscriptionTopographique::class, 'AutresReproductionAdd']);
+Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/SurfaceBorne', [ChefCirconscriptionTopographique::class, 'SurfaceBorneAdd']);
+
 //TEST TUTO
 
 Route::post('/login', [AuthController::class, 'login']);
-
-
-Route::middleware('auth:api')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/logout', [AuthController::class, 'logout']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/Administrateur', [CirconscriptionController::class, 'recuperationRegion']);

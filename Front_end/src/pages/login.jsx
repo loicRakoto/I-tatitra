@@ -2,8 +2,10 @@ import React from 'react'
 import ImageDST from '../images/DST.jpg';
 import FormConnect from '../components/Login/FormConnect'
 import { useState } from 'react';
-
+import VerificationAuth from '../components/VerificationAuth';
 export default function Login() {
+
+    VerificationAuth();
 
     const [isInscriptionVisible, setIsInscriptionVisible] = useState(false);
 
@@ -22,7 +24,7 @@ export default function Login() {
     return (
         <div className="wrapper">
             <div className="container main">
-                <div className="row">
+                <div className="row rowLogin">
                     <div className={`col-md-6 side-image ${isInscriptionVisible ? 'hidden' : ''}`}>
                         {/* image */}
                         <img src={ImageDST} alt="" />
