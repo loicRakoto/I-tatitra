@@ -1,8 +1,50 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
+import TableTravauxBornage from '../../Tableaux/TableTravauxBornage';
 
-function TravauxBornage({ utilisateur }) {
+
+function TravauxBornage() {
+
+    const [etatTableaux, setetatTableaux] = useState(0);
+
+
+    //U T I L I S A T E U R
+    const token = localStorage.getItem('token');
+
+    // Définissez l'en-tête Authorization avec le jeton
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    const [userId, setuserId] = useState(0);
+    const [userFonction, setuserFonction] = useState(0);
+    const [userCirconscriptionId, setuserCirconscriptionId] = useState(0);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/user', config)
+            .then(response => {
+                setuserId(response.data.id);
+                setuserFonction(response.data.fonction);
+                setuserCirconscriptionId(response.data.circonscription_id);
+
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des informations utilisateur:', error);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+
+    const utilisateurId = userId;
+    const utilisateurFonction = userFonction;
+    const utilisateurCirconscriptionId = userCirconscriptionId;
+
+
+
 
     const initialSituations = 0; // Valeur initiale pour les situations
     const initialImmatriculation = 0;
@@ -22,15 +64,14 @@ function TravauxBornage({ utilisateur }) {
         morcellement: morcellement,
         transformation: transformation,
         changementNom: changementNom,
-        utilisateurId: utilisateur.id,
-        utilisateurFonction: utilisateur.fonction,
-        utilisateurCirconscriptionId: utilisateur.circonscription_id
+        utilisateurId: utilisateurId,
+        utilisateurFonction: utilisateurFonction,
+        utilisateurCirconscriptionId: utilisateurCirconscriptionId
     };
 
 
 
     const handleSubmitTravauxBornage = async (e) => {
-        console.log(formData);
         e.preventDefault();
 
         console.log(formData);
@@ -45,11 +86,46 @@ function TravauxBornage({ utilisateur }) {
             setMorcellement(initialMorcellement);
             setTransformation(initialTransformation);
             setChangementNom(initialChangementNom);
+
+            setetatTableaux(0);
         } catch (error) {
             console.error('Erreur lors de l\'envoi de la requête:', error);
         }
 
     };
+
+    const [date, setdate] = useState([]);
+    const [envoiDate, setenvoiDate] = useState('');
+
+    const majTableau = (event) => {
+        var date = event.target.value;
+        setenvoiDate(date);
+        setetatTableaux(1);
+    }
+
+
+    // const paramm = {
+    //     params: {
+    //         activiteId: 1,
+    //         utilisateurCirconscriptionId: userCirconscriptionId
+    //     }
+    // };
+
+    const paramm = useMemo(() => ({
+        params: {
+            activiteId: 1,
+            utilisateurCirconscriptionId: userCirconscriptionId
+        }
+    }), [userCirconscriptionId]);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RecuperationDateActivite', paramm).then(Response => {
+            setdate(Response.data);
+
+        }).catch(error => {
+            console.error(error);
+        })
+    }, [paramm]);
 
 
     return (
@@ -57,14 +133,39 @@ function TravauxBornage({ utilisateur }) {
             <div className="row">
                 <div className="col">
                     <button className="btn btn-primary btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#travauxBornage">Gerer les activités</button>
+                        data-bs-target="#travauxBornage"><i className="fa-solid fa-pen"></i>Nouvelle activité</button>
                 </div>
-                <div className="col">
+                <div className="col" >
+                    <div className='row'>
+                        <div className='col-7'></div>
+                        <div className="col input-group input-group-sm ">
+                            <label className="input-group-text" htmlFor="inputGroupSelect01">Date</label>
+                            <select name='district'
+                                className="form-select"
+                                id="inputGroupSelect03"
+                                onChange={majTableau}
+                            >
+                                {date.map(item => (
+                                    <option key={`${item.mois}/${item.annee}`} value={`${item.mois}/${item.annee}`}>
+                                        {item.mois} {item.annee}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+
 
                 </div>
 
             </div>
-            <div className="row"></div>
+            <div className="row">
+
+                <div className="container-tableau mt-3">
+                    <TableTravauxBornage envoiDate={envoiDate} setetatTableaux={setetatTableaux} etatTableaux={etatTableaux} CirconscriptionId={userCirconscriptionId} />
+                </div>
+
+            </div>
 
 
             {/* MODAL  =============================================================*/}

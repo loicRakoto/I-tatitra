@@ -1,7 +1,7 @@
 import React from 'react'
 import VerificationAuth from '../components/VerificationAuth'
 import NavigationChefCircTopo from '../layout/Dst/NavigationChefCircTopo';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -36,82 +36,61 @@ function ChefCirconscriptionTopographique() {
     const [NomPage, setNomPage] = useState("Rapport d'activité");
     let pageContent;
 
-    //RECUPERATION DU TOKEN
-    const token = localStorage.getItem('token');
 
-    // Définissez l'en-tête Authorization avec le jeton
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    };
-
-    const [detailUtilisateur, setDetailUtilisateur] = useState(null);
-
-    useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/user', config)
-            .then(response => {
-                setDetailUtilisateur(response.data);
-            })
-            .catch(error => {
-                console.error('Erreur lors de la récupération des informations utilisateur:', error);
-            });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     switch (currentPage) {
         case "PageRapportAct":
-            pageContent = <RapportActivite utilisateur={detailUtilisateur} />;
+            pageContent = <RapportActivite />;
             break;
 
         case "TravauxBornages":
-            pageContent = <TravauxBornage utilisateur={detailUtilisateur} />;
+            pageContent = <TravauxBornage />;
             break;
 
         case "TravauxPlanRegulier":
-            pageContent = <TravauxPlanRegulier utilisateur={detailUtilisateur} />;
+            pageContent = <TravauxPlanRegulier />;
             break;
 
         case "AutresTravaux":
-            pageContent = <AutresTravaux utilisateur={detailUtilisateur} />;
+            pageContent = <AutresTravaux />;
             break;
 
         case "TravauxReperage":
-            pageContent = <TravauxReperage utilisateur={detailUtilisateur} />;
+            pageContent = <TravauxReperage />;
             break;
 
         case "ReproductionPlan":
-            pageContent = <ReproductionPlan utilisateur={detailUtilisateur} />;
+            pageContent = <ReproductionPlan />;
             break;
 
         case "AutresReproduction":
-            pageContent = <AutresReproduction utilisateur={detailUtilisateur} />;
+            pageContent = <AutresReproduction />;
             break;
 
         case "SurfaceBorne":
-            pageContent = <SurfaceBorne utilisateur={detailUtilisateur} />;
+            pageContent = <SurfaceBorne />;
             break;
 
 
         //////////////////////////TRAVAUX MODERNISATION//////////////////////////////
         case "Dematerialisation":
-            pageContent = <Dematerialisation utilisateur={detailUtilisateur} />;
+            pageContent = <Dematerialisation />;
             break;
 
         case "ElaborationPlof":
-            pageContent = <ElaborationPlof utilisateur={detailUtilisateur} />;
+            pageContent = <ElaborationPlof />;
             break;
 
 
         ////////////////////FOND PLAN///////////////////////////////
         case "FondPlanDeteriore":
-            pageContent = <FondPlanDeteriore utilisateur={detailUtilisateur} />;
+            pageContent = <FondPlanDeteriore />;
             break;
 
 
         ///////////RAPPORT BUDGETAIRE/////////////////
         case "BudgetGeneral":
-            pageContent = <BudgetGenerale utilisateur={detailUtilisateur} />;
+            pageContent = <BudgetGenerale />;
             break;
 
         default:
@@ -120,7 +99,17 @@ function ChefCirconscriptionTopographique() {
     }
 
     const logout = () => {
-        console.log(config);
+
+        //RECUPERATION DU TOKEN
+        const token = localStorage.getItem('token');
+
+        // Définissez l'en-tête Authorization avec le jeton
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
         axios.get('http://127.0.0.1:8000/api/logout', config)
             .then(response => {
                 localStorage.clear();

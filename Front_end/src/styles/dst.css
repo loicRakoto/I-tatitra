@@ -199,3 +199,53 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
+
+/* TABLEAU */
+.container-tableau {
+    padding: 10px;
+    background-color: white;
+}
+
+.tableau {
+    font-size: 11px;
+}
+
+tbody tr th.soustitre-tableau {
+    background-color: #357a8fc7;
+    color: white;
+}
+
+tbody tr th.total-tableau {
+    color: white;
+    background-color: #01557a;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.titre-tableau {
+    background-color: #357a8f;
+    color: white;
+}
+
+
+.table> :not(caption)>*:not(thead)>tr>th,
+.table> :not(caption)>*:not(thead)>tr>td {
+    padding: 0.75rem;
+    /* ou la valeur par défaut souhaitée */
+    background-color: transparent;
+    /* ou la couleur par défaut souhaitée */
+    border-bottom-width: 0;
+    /* ou l'épaisseur de bordure souhaitée */
+    box-shadow: none;
+    /* supprimer l'ombre par défaut */
+}

@@ -40,11 +40,16 @@ Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/ReproductionPlan'
 Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/AutresReproduction', [ChefCirconscriptionTopographique::class, 'AutresReproductionAdd']);
 Route::post('/ChefCirconsctiptionTopo/OperationTopoCourant/Add/SurfaceBorne', [ChefCirconscriptionTopographique::class, 'SurfaceBorneAdd']);
 
+Route::get('/ChefCirconsctiptionTopo/RecuperationLastActivite', [ChefCirconscriptionTopographique::class, 'LastActivite']);
+Route::get('/ChefCirconsctiptionTopo/RecuperationDateActivite', [ChefCirconscriptionTopographique::class, 'DateActivite']);
+Route::get('/ChefCirconsctiptionTopo/RechercheDateActivite', [ChefCirconscriptionTopographique::class, 'RechercheDateActivite']);
+
+
 //TEST TUTO
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/logout', [AuthController::class, 'logout']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/Administrateur', [CirconscriptionController::class, 'recuperationRegion']);
+    // Route::get('/Administrateur', [CirconscriptionController::class, 'recuperationRegion']);
 });
