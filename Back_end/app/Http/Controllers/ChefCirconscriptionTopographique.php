@@ -485,9 +485,6 @@ class ChefCirconscriptionTopographique extends Controller
         }
 
 
-
-
-
         // Date de début et fin du mois et année sélectionnés
         $dateDebut = Carbon::createFromDate($annee, $convertMois, 1)->startOfMonth();
         $dateFin = Carbon::createFromDate($annee, $convertMois, 1)->endOfMonth();
@@ -512,5 +509,10 @@ class ChefCirconscriptionTopographique extends Controller
             return response()->json("aucun");
             // Aucun enregistrement trouvé pour le mois et l'année sélectionnés
         }
+    }
+
+    public function modificationAncien()
+    {
+        return response()->json(["modification de l'ancienne activité"]);
     }
 }

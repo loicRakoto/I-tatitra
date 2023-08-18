@@ -43,12 +43,15 @@ body {
     height: 40px;
 }
 
-.search-wrap .search label {
+.search-wrap .search {
     display: flex;
     align-items: center;
-    height: 100%;
+
 }
 
+.circonscr-header {
+    padding-top: 20px;
+}
 
 
 .search-wrap .user-actions button {
@@ -248,4 +251,25 @@ tr {
     /* ou l'épaisseur de bordure souhaitée */
     box-shadow: none;
     /* supprimer l'ombre par défaut */
+}
+
+.butonModifAdd {
+    width: 40%;
+}
+
+.loading-animation {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 19%;
+}
+
+.spinner-grow {
+    width: 90px;
+    height: 90px;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-animation: .75s linear infinite spinner-grow;
+    animation: .75s linear infinite spinner-grow;
 }

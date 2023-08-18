@@ -1,10 +1,14 @@
 import React from 'react'
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-function TableTravauxBornage({ CirconscriptionId, etatTableaux, setetatTableaux, envoiDate }) {
+function TableTravauxBornage({ isLoading, setIsLoading, CirconscriptionId, etatTableaux, setetatTableaux, envoiDate }) {
 
 
+    console.log(`CirconscriptionId = ${CirconscriptionId}`);
+    console.log(`etatTableaux = ${etatTableaux}`);
+    console.log(`SetEtatTableaux = ${setetatTableaux}`);
+    console.log(`envoiDate = ${envoiDate}`);
 
     //STATE DU TABLEAU
     const [a1, seta1] = useState(0);
@@ -47,13 +51,11 @@ function TableTravauxBornage({ CirconscriptionId, etatTableaux, setetatTableaux,
     }), [CirconscriptionId, envoiDate]);
 
 
-
-    const actualisationTableau = async (api) => {
+    const actualisationTableau = useCallback(async (api) => {
+        console.log('Je suis dans actualisation tableau');
         try {
-            // const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RecuperationLastActivite";
             const response = await axios.get(api, formData);
-            // console.log('date=', envoiDate);
-            // console.log('Réponse de l\'API:', response.data.last);
+
 
 
             var recuMois = response.data.last.recu_mois;
@@ -110,77 +112,98 @@ function TableTravauxBornage({ CirconscriptionId, etatTableaux, setetatTableaux,
         } catch (error) {
             // console.error('Erreur lors de l\'envoi de la requête:', error);
         }
-    }
 
-    if (etatTableaux === 0) {
-        //Dernier enregistrement
-        const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RecuperationLastActivite";
-        actualisationTableau(api);
-    } else if (etatTableaux === 1) {
-        //Recherche date
-        const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RechercheDateActivite";
-        actualisationTableau(api);
-    }
+
+        // setetatTableaux(1000);
+    }, [setetatTableaux, formData]);
+
+    // const actualisationTableau = async (api) => {
+
+    // }
+
+    useEffect(() => {
+        if (etatTableaux === 0) {
+            //Dernier enregistrement
+            console.log("Verifie si l'etat est 0 ");
+            const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RecuperationLastActivite";
+            actualisationTableau(api);
+        } else if (etatTableaux === 1) {
+            //Recherche date
+            const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RechercheDateActivite";
+            actualisationTableau(api);
+        }
+        else if (etatTableaux === 1000) {
+            setIsLoading(false);
+        }
+
+
+
+    }, [etatTableaux, actualisationTableau, setIsLoading]);
 
 
     return (
         <>
-            <table className="table table-hover tableau">
+            {!isLoading && (
+                <div className="container-tableau mt-3">
+                    <table className="table table-hover tableau">
 
-                <thead className='titre-tableau'>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col">RECUS PENDANT LE MOIS</th>
-                        <th scope="col">EXECUTE PENDANT LE MOIS	</th>
-                        <th scope="col">EN COURS DE TRAITEMENT</th>
-                        <th scope="col">PAYER NON EXECUTE</th>
-                        <th scope="col">REMIS PENDANT LE MOIS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th className='soustitre-tableau'>Immatriculation</th>
-                        <td>a1 {a1}</td>
-                        <td>b1 {b1}</td>
-                        <td>c1 {c1}</td>
-                        <td>d1 {d1}</td>
-                        <td>e1 {e1}</td>
-                    </tr>
-                    <tr>
-                        <th className='soustitre-tableau'>Morcellement / Fusion de morcellement</th>
-                        <td>a2 {a2}</td>
-                        <td>b2 {b2}</td>
-                        <td>c2 {c2}</td>
-                        <td>d2 {d2}</td>
-                        <td>e2 {e2}</td>
-                    </tr>
-                    <tr>
-                        <th className='soustitre-tableau'>Transformation parcelle cadastrale en titre foncier</th>
-                        <td>a3 {a3}</td>
-                        <td>b3 {b3}</td>
-                        <td>c3 {c3}</td>
-                        <td>d3 {d3}</td>
-                        <td>e3 {e3}</td>
-                    </tr>
-                    <tr>
-                        <th className='soustitre-tableau'>Changement de nom / titre</th>
-                        <td>a4 {a4}</td>
-                        <td>b4 {b4}</td>
-                        <td>c4 {c4}</td>
-                        <td>d4 {d4}</td>
-                        <td>e4 {e4}</td>
-                    </tr>
-                    <tr>
-                        <th className='total-tableau'>Total</th>
-                        <td>a5 {a5}</td>
-                        <td>b5 {b5}</td>
-                        <td>c5 {c5}</td>
-                        <td>d5 {d5}</td>
-                        <td>e5 {e5}</td>
-                    </tr>
+                        <thead className='titre-tableau'>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">RECUS PENDANT LE MOIS</th>
+                                <th scope="col">EXECUTE PENDANT LE MOIS	</th>
+                                <th scope="col">EN COURS DE TRAITEMENT</th>
+                                <th scope="col">PAYER NON EXECUTE</th>
+                                <th scope="col">REMIS PENDANT LE MOIS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th className='soustitre-tableau'>Immatriculation</th>
+                                <td>a1 {a1}</td>
+                                <td>b1 {b1}</td>
+                                <td>c1 {c1}</td>
+                                <td>d1 {d1}</td>
+                                <td>e1 {e1}</td>
+                            </tr>
+                            <tr>
+                                <th className='soustitre-tableau'>Morcellement / Fusion de morcellement</th>
+                                <td>a2 {a2}</td>
+                                <td>b2 {b2}</td>
+                                <td>c2 {c2}</td>
+                                <td>d2 {d2}</td>
+                                <td>e2 {e2}</td>
+                            </tr>
+                            <tr>
+                                <th className='soustitre-tableau'>Transformation parcelle cadastrale en titre foncier</th>
+                                <td>a3 {a3}</td>
+                                <td>b3 {b3}</td>
+                                <td>c3 {c3}</td>
+                                <td>d3 {d3}</td>
+                                <td>e3 {e3}</td>
+                            </tr>
+                            <tr>
+                                <th className='soustitre-tableau'>Changement de nom / titre</th>
+                                <td>a4 {a4}</td>
+                                <td>b4 {b4}</td>
+                                <td>c4 {c4}</td>
+                                <td>d4 {d4}</td>
+                                <td>e4 {e4}</td>
+                            </tr>
+                            <tr>
+                                <th className='total-tableau'>Total</th>
+                                <td>a5 {a5}</td>
+                                <td>b5 {b5}</td>
+                                <td>c5 {c5}</td>
+                                <td>d5 {d5}</td>
+                                <td>e5 {e5}</td>
+                            </tr>
 
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            )}
+
         </>)
 }
 

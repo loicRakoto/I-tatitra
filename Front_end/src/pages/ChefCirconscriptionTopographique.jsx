@@ -1,7 +1,7 @@
 import React from 'react'
 import VerificationAuth from '../components/VerificationAuth'
 import NavigationChefCircTopo from '../layout/Dst/NavigationChefCircTopo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -26,6 +26,39 @@ import BudgetGenerale from '../components/CirconscriptionTopographique/RapportBu
 
 function ChefCirconscriptionTopographique() {
 
+    const [userId, setuserId] = useState(0);
+    const [nom, setnom] = useState('');
+    const [prenom, setprenom] = useState('');
+    const [telephone, settelephone] = useState('');
+    const [CIN, setCIN] = useState('');
+    const [userFonction, setuserFonction] = useState(0);
+    const [userCirconscriptionId, setuserCirconscriptionId] = useState(0);
+
+    const token = localStorage.getItem('token');
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/user', config)
+            .then(response => {
+                setuserId(response.data.id);
+                setnom(response.data.Nom);
+                setprenom(response.data.Prenom);
+                settelephone(response.data.Telephone);
+                setCIN(response.data.CIN);
+                setuserFonction(response.data.fonction);
+                setuserCirconscriptionId(response.data.circonscription_id);
+
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des informations utilisateur:', error);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
 
     VerificationAuth();
@@ -126,9 +159,15 @@ function ChefCirconscriptionTopographique() {
         <div className="dashboard">
             <aside className="search-wrap">
                 <div className="search">
-                    <label htmlFor="search">
-                        <div>{NomPage}</div>
-                    </label>
+
+                    <nav className='circonscr-header'>
+                        <ol className="breadcrumb">
+                            <li className="breadcrumb-item">Vakinakaratra</li>
+                            <li className="breadcrumb-item">Antsirabe</li>
+                            <li className="breadcrumb-item">{NomPage}</li>
+                        </ol>
+                    </nav>
+
                 </div>
 
                 <div className="user-actions">

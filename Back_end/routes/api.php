@@ -44,6 +44,8 @@ Route::get('/ChefCirconsctiptionTopo/RecuperationLastActivite', [ChefCirconscrip
 Route::get('/ChefCirconsctiptionTopo/RecuperationDateActivite', [ChefCirconscriptionTopographique::class, 'DateActivite']);
 Route::get('/ChefCirconsctiptionTopo/RechercheDateActivite', [ChefCirconscriptionTopographique::class, 'RechercheDateActivite']);
 
+Route::post('/ChefCirconsctiptionTopo/modificationAncien', [ChefCirconscriptionTopographique::class, 'modificationAncien']);
+
 
 //TEST TUTO
 
