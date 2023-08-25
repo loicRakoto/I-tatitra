@@ -1,0 +1,277 @@
+* {
+    box-sizing: border-box;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
+}
+
+html,
+body {
+    /* color: #99a0b0; */
+    color: #0f637e;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #f5f5fa;
+    font-size: 16px;
+    line-height: 120%;
+    font-family: Open Sans, Helvetica, sans-serif;
+}
+
+.dashboard {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-gap: 0;
+    grid-template-columns: 300px auto;
+    grid-template-rows: 50px auto;
+    grid-template-areas: 'menu search' 'menu content';
+}
+
+.search-wrap {
+    grid-area: search;
+    background: #f1f1f1;
+    border-bottom: 1px solid #ede8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3em;
+}
+
+.search-wrap .search {
+    height: 40px;
+    font-weight: bolder;
+}
+
+.search-wrap .search {
+    display: flex;
+    align-items: center;
+
+}
+
+.circonscr-header {
+    padding-top: 20px;
+}
+
+
+.search-wrap .user-actions button {
+    border: 0;
+    background: none;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    margin-left: 0.5em;
+}
+
+.search-wrap .user-actions button svg {
+    position: relative;
+    top: 2px;
+}
+
+.search-wrap .user-actions button svg path,
+.search-wrap .user-actions button svg circle {
+    fill: #b6bbc6;
+    transition: fill 0.15s ease;
+}
+
+.search-wrap .user-actions button:hover svg path,
+.search-wrap .user-actions button:hover svg circle {
+    fill: #2b3a60;
+}
+
+.menu-wrap {
+    grid-area: menu;
+    padding-bottom: 3em;
+    overflow: auto;
+    background: #fff;
+    border-right: 1px solid #ede8f0;
+}
+
+.menu-wrap .user {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0 3em;
+}
+
+.menu-wrap .user .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.menu-wrap .user .user-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.menu-wrap .user figcaption {
+    margin: 0;
+    padding: 0 0 0 1em;
+    color: #1b253d;
+    font-weight: 700;
+    font-size: 0.875em;
+    line-height: 100%;
+}
+
+.menu-wrap nav {
+    display: block;
+    padding: 0 1em;
+}
+
+.menu-wrap nav section {
+    display: block;
+    padding: 3em 0 0;
+}
+
+.menu-wrap nav h3 {
+    margin: 0;
+    font-size: 0.875em;
+    text-transform: uppercase;
+    color: #4b84fe;
+    font-weight: 600;
+}
+
+.menu-wrap nav ul {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-wrap nav li {
+    display: block;
+    padding: 0;
+    margin: 1em 0 0;
+}
+
+.menu-wrap nav li a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #99a0b0;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875em;
+    transition: color 0.15s ease;
+}
+
+.menu-wrap nav li a svg {
+    display: block;
+    margin-right: 1em;
+}
+
+.menu-wrap nav li a svg path,
+.menu-wrap nav li a svg circle {
+    fill: #b6bbc6;
+    transition: fill 0.15s ease;
+}
+
+.menu-wrap nav li a:hover {
+    color: #1b253d;
+}
+
+.menu-wrap nav li a:hover svg path,
+.menu-wrap nav li a:hover svg circle {
+    fill: #2b3a60;
+}
+
+.menu-wrap nav li a.active {
+    color: #4b84fe;
+}
+
+.menu-wrap nav li a.active svg path,
+.menu-wrap nav li a.active svg circle {
+    fill: #4b84fe;
+}
+
+.content-wrap {
+    grid-area: content;
+    padding: 1em;
+    overflow: auto;
+}
+
+.content-wrap .content-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+/* TABLEAU */
+.container-tableau {
+    padding: 10px;
+    background-color: white;
+}
+
+.tableau {
+    font-size: 11px;
+}
+
+tbody tr th.soustitre-tableau {
+    background-color: #357a8fc7;
+    color: white;
+}
+
+tbody tr th.total-tableau {
+    color: white;
+    background-color: #01557a;
+}
+
+tbody,
+td,
+tfoot,
+th,
+thead,
+tr {
+    border-color: inherit;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.titre-tableau {
+    background-color: #357a8f;
+    color: white;
+}
+
+
+.table> :not(caption)>*:not(thead)>tr>th,
+.table> :not(caption)>*:not(thead)>tr>td {
+    padding: 0.75rem;
+    /* ou la valeur par défaut souhaitée */
+    background-color: transparent;
+    /* ou la couleur par défaut souhaitée */
+    border-bottom-width: 0;
+    /* ou l'épaisseur de bordure souhaitée */
+    box-shadow: none;
+    /* supprimer l'ombre par défaut */
+}
+
+.butonModifAdd {
+    width: 40%;
+}
+
+.loading-animation {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 19%;
+}
+
+.spinner-grow {
+    width: 90px;
+    height: 90px;
+    vertical-align: -0.125em;
+    background-color: currentColor;
+    border-radius: 50%;
+    opacity: 0;
+    -webkit-animation: .75s linear infinite spinner-grow;
+    animation: .75s linear infinite spinner-grow;
+}
