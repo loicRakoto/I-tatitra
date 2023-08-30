@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useMemo, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
-function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionId, etatTableaux, setetatTableaux, envoiDate }) {
+function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionId, etatTableaux, setetatTableaux, envoiDate, nomRegion, nomCirconscription }) {
 
     // const [dataLoaded, setDataLoaded] = useState(false);
 
@@ -50,15 +50,14 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
     const formData = useMemo(() => ({
         params: {
-            // activiteId: 1,
+
             utilisateurCirconscriptionId: CirconscriptionId,
-            // date: envoiDate
+            date: envoiDate
         }
-    }), [CirconscriptionId]);
+    }), [CirconscriptionId, envoiDate]);
 
 
     const actualisationTableau = useCallback(async (api) => {
-
 
         try {
 
@@ -70,6 +69,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             var encoursTraitementBornage = response.data.TRAVAUX_BORNAGES.en_cours_traitement;
             var payeNonExecuteBornage = response.data.TRAVAUX_BORNAGES.paye_non_execute;
             var remisMoisBornage = response.data.TRAVAUX_BORNAGES.remis_mois;
+
 
             //TRAVAUX PLAN REGULIER ET PROJET DE MORCELLEMENT
             var recuMoisPlanRegulierProjetMorcellement = response.data.TRAVAUX_PLAN_REGULIER_PROJET_MORCELLEMENT.recu_mois;
@@ -85,6 +85,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             var payeNonExecuteAutresTravaux = response.data.AUTRES_TRAVAUX.paye_non_execute;
             var remisMoisAutresTravaux = response.data.AUTRES_TRAVAUX.remis_mois;
 
+
             //TRAVAUX DE REPERAGE
             var recuMoisReperage = response.data.TRAVAUX_DE_REPERAGE.recu_mois;
             var executeMoisReperage = response.data.TRAVAUX_DE_REPERAGE.execute_mois;
@@ -98,10 +99,12 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             var executeMoisReproductionPlan = response.data.REPRODUCTION_PLAN.execute_mois;
             var remisMoisReproductionPlan = response.data.REPRODUCTION_PLAN.remis_mois;
 
+
             //AUTRES REPRODUCTION
             var recuMoisAutresReproduction = response.data.AUTRES_REPRODUCTIONS.recu_mois;
             var executeMoisAutresReproduction = response.data.AUTRES_REPRODUCTIONS.execute_mois;
             var remisMoisAutresReproduction = response.data.AUTRES_REPRODUCTIONS.remis_mois;
+
 
             //SURFACES BORNEES
             var borneesSurfacesBornes = response.data.SURFACE_BORNEES.borne;
@@ -111,9 +114,11 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             var scanneDematerialisation = response.data.DEMATERIALISATION.scane;
             var vectoriseDematerialisation = response.data.DEMATERIALISATION.vectorise;
 
+
             //Elaboration Plof / Validation plof
             var enCoursTraitementElaboValidPlof = response.data.ELABORATION_PLOF_VALIDATION_PLOF.en_cours_traitement;
-            var valideElaboValidPlof = response.data.last.valide;
+            var valideElaboValidPlof = response.data.ELABORATION_PLOF_VALIDATION_PLOF.valide;
+
 
             //Fond plan deteriore et ou demande speciale
             var bourrageFondPlanDeterioreDmdSpeciale = response.data.FOND_PLAN_DETERIORE_ET_OU_DEMANDES_SPECIALES.bourrage;
@@ -123,7 +128,6 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
             //Budget generale
             // var payesBudgetGenerale = response.data.BUDGET_GENERALE.payes;
-
 
 
             //Assignation
@@ -222,11 +226,14 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             var Total_AutresFondPlanDeterioreDmdSpeciale = parseInt(AutresFondPlanDeterioreDmdSpeciale[0], 10) + parseInt(AutresFondPlanDeterioreDmdSpeciale[1], 10);
             var Total_DemandeSpecialesFondPlanDeterioreDmdSpeciale = parseInt(DemandeSpecialesFondPlanDeterioreDmdSpeciale[0], 10) + parseInt(DemandeSpecialesFondPlanDeterioreDmdSpeciale[1], 10);
 
+
             seta1(Total_RecuMoisBornage);
             seta2(Total_ExecuteMoisBornage);
             seta3(Total_EncoursTraitementBornage);
             seta4(Total_PayeNonExecuteBornage);
             seta5(Total_RemisMoisBornage);
+
+
 
             seta6(Total_RecuMoisPlanRegulierProjetMorcellement);
             seta7(Total_ExecuteMoisPlanRegulierProjetMorcellement);
@@ -268,7 +275,6 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
             seta35(Total_AutresFondPlanDeterioreDmdSpeciale);
             seta36(Total_DemandeSpecialesFondPlanDeterioreDmdSpeciale);
 
-
             setetatTableaux(1000);
 
 
@@ -285,25 +291,21 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
     // }
 
     useEffect(() => {
-
-
-        if (etatTableaux === 0) {
+        if (etatTableaux === 0 && CirconscriptionId !== 0) {
             //Dernier enregistrement de toute les activité de cirtopo
-
             const api = "http://127.0.0.1:8000/api/rapportActivite/cirtopo";
             actualisationTableau(api);
         }
-        // else if (etatTableaux === 1) {
-        //     //Recherche date
-
-        //     const api = "http://127.0.0.1:8000/api/ChefCirconsctiptionTopo/RechercheDateActivite";
-        //     actualisationTableau(api);
-        // }
+        else if (etatTableaux === 1 && envoiDate !== '') {
+            //Recherche date
+            const api = "http://127.0.0.1:8000/api/rechercheRapportActiviteCirtopo/cirtopo";
+            actualisationTableau(api);
+        }
         else if (etatTableaux === 1000) {
             setIsLoading(false);
         }
 
-    }, [etatTableaux, actualisationTableau, setIsLoading]);
+    }, [etatTableaux, actualisationTableau, setIsLoading, CirconscriptionId, envoiDate]);
 
 
     return (
@@ -314,15 +316,15 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                         <thead className='titre-tableau'>
                             <tr className="tr1">
-                                <th colspan={3}></th>
-                                <th colspan={2} style="background-color: rgb(194, 102, 4);">ANOSY</th>
+                                <th colSpan={3}></th>
+                                <th className='title-region' colSpan={2} >{nomRegion}</th>
                             </tr>
                             <tr className="tr2">
                                 {/* head activite / situation */}
-                                <th className="tab-type-act"></th>
+                                <th>LES TRAVAUX</th>
                                 <th>ACTIVITES</th>
                                 <th>SITUATION</th>
-                                <th>TOLAGNARO</th>
+                                <th>{nomCirconscription}</th>
                                 <th>TOTAL</th>
                             </tr>
                         </thead>
@@ -333,9 +335,9 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* TRAVAUX DE BORNAGE  */}
                             <tr className="activite-1">
-                                <td rowspan={27} class="tab-type-act operation">OPERATIONS TOPOGRAPHIQUES
+                                <td rowSpan={27} className="tab-type-act operation">OPERATIONS TOPOGRAPHIQUES
                                     COURANTES</td>
-                                <td rowspan={5} class="nom-activite">TRAVAUX DE BORNAGE</td>
+                                <td rowSpan={5} className="nom-activite1">TRAVAUX DE BORNAGE</td>
                                 <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a1}</td>
                                 <th>{a1}</th>
@@ -363,7 +365,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* TRAVEAUX DE PLAN REGULIER  */}
                             <tr className="activite-2">
-                                <td rowspan={5} className="nom-activite">TRAVAUX DE PLAN REGULIER ET PROJET DE MORCELLEMENT</td>
+                                <td rowSpan={5} className="nom-activite1">TRAVAUX DE PLAN REGULIER ET PROJET DE MORCELLEMENT</td>
                                 <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a6}</td>
                                 <th>{a6}</th>
@@ -391,7 +393,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* AUTRES TRAVAUX */}
                             <tr className="activite-3">
-                                <td rowspan={5} className="nom-activite">AUTRES TRAVAUX</td>
+                                <td rowSpan={5} className="nom-activite1">AUTRES TRAVAUX</td>
                                 <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a11}</td>
                                 <th>{a11}</th>
@@ -420,7 +422,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* TRAVEAUX DE REPERAGE  */}
                             <tr className="activite-4">
-                                <td rowspan={5} className="nom-activite">TRAVAUX DE REPERAGE</td>
+                                <td rowSpan={5} className="nom-activite1">TRAVAUX DE REPERAGE</td>
                                 <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a16}</td>
                                 <th>{a16}</th>
@@ -449,7 +451,8 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* REPRODUCTION PLAN */}
                             <tr className="activite-5">
-                                <td rowspan={3} className="nom-activite">REPRODUCTION PLAN</td>
+                                <td rowSpan={3} className="nom-activite1">REPRODUCTION PLAN</td>
+                                <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a21}</td>
                                 <th>{a21}</th>
                             </tr >
@@ -466,7 +469,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* AUTRES REPRODUCTION */}
                             <tr className="activite-6">
-                                <td rowspan={3} className="nom-activite">AUTRES REPRODUCTION</td>
+                                <td rowSpan={3} className="nom-activite1">AUTRES REPRODUCTION</td>
                                 <td className="situation-activite">Reçus pendant le mois</td>
                                 <td>{a24}</td>
                                 <th>{a24}</th>
@@ -484,7 +487,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* SURFACES BORNEES */}
                             <tr className="activite-7">
-                                <td className="nom-activite">SURFACES BORNEES</td>
+                                <td className="nom-activite1">SURFACES BORNEES</td>
                                 <td className="situation-activite">Bornées</td>
                                 <td>{a27}</td>
                                 <th>{a27}</th>
@@ -498,9 +501,9 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
                             {/* TRAVAUX DE MODERNISATION  */}
                             {/* DEMATERIALISATION */}
                             <tr className="activite-8">
-                                <td rowspan={5} className="tab-type-act">TRAVAUX DE MODERNISATION</td>
-                                <td rowspan={3} className="nom - activite">DEMATERIALISATION</td >
-                                <td td className="situation-activite" > Restaurés</td>
+                                <td rowSpan={5} className="tab-type-act">TRAVAUX DE MODERNISATION</td>
+                                <td rowSpan={3} className="nom-activite2">DEMATERIALISATION</td >
+                                <td className="situation-activite" > Restaurés</td>
                                 <td>{a28}</td>
                                 <th>{a28}</th>
                             </tr >
@@ -517,7 +520,7 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
 
                             {/* ELABORATION PLOF / VALIDATION PLOF */}
                             <tr className="activite-9">
-                                <td rowspan={2} className="nom-activite">ELABORATION PLOF / VALIDATION PLOF</td>
+                                <td rowSpan={2} className="nom-activite2">ELABORATION PLOF / VALIDATION PLOF</td>
                                 <td className="situation-activite">En cours de traitement</td>
                                 <td>{a31}</td>
                                 <th>{a31}</th>
@@ -535,9 +538,9 @@ function TableRapportActiviteCirtopo({ isLoading, setIsLoading, CirconscriptionI
                              ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////  */}
                             {/* FOND PLAN  */}
                             <tr className="activite-10">
-                                <td rowspan={4} className="tab-type-act">FOND PLAN</td>
-                                <td rowspan={4} className="nom - activite">FONDS PLAN DETERIORES ET / OU DEMANDES SPECIALES</td >
-                                <td td className="situation-activite" > Bourrage</td>
+                                <td rowSpan={4} className="tab-type-act">FOND PLAN</td>
+                                <td rowSpan={4} className="nom-activite3">FONDS PLAN DETERIORES ET / OU DEMANDES SPECIALES</td >
+                                <td className="situation-activite" > Bourrage</td>
                                 <td>{a33}</td>
                                 <th>{a33}</th>
                             </tr >

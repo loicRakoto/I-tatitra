@@ -23,44 +23,15 @@ import FondPlanDeteriore from '../components/CirconscriptionTopographique/FondPl
 
 import BudgetGenerale from '../components/CirconscriptionTopographique/RapportBudgetaire/BudgetGenerale';
 
-
+import utilisateur from '../images/utilisateur.png';
 
 function ChefCirconscriptionTopographique() {
 
-    // const [userId, setuserId] = useState(0);
-    // const [nom, setnom] = useState('');
-    // const [prenom, setprenom] = useState('');
-    // const [telephone, settelephone] = useState('');
-    // const [CIN, setCIN] = useState('');
-    // const [userFonction, setuserFonction] = useState(0);
-    // const [userCirconscriptionId, setuserCirconscriptionId] = useState(0);
-
-    // const token = localStorage.getItem('token');
-
-    // const config = {
-    //     headers: {
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    // };
-
-    // useEffect(() => {
-    //     axios.get('http://127.0.0.1:8000/api/user', config)
-    //         .then(response => {
-    //             setuserId(response.data.id);
-    //             setnom(response.data.Nom);
-    //             setprenom(response.data.Prenom);
-    //             settelephone(response.data.Telephone);
-    //             setCIN(response.data.CIN);
-    //             setuserFonction(response.data.fonction);
-    //             setuserCirconscriptionId(response.data.circonscription_id);
-
-    //         })
-    //         .catch(error => {
-    //             console.error('Erreur lors de la récupération des informations utilisateur:', error);
-    //         });
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, []);
-
+    const [nomUser, setnomUser] = useState("");
+    const [prenomUser, setprenomUser] = useState("");
+    const [telephone, settelephone] = useState("")
+    const [nomRegion, setnomRegion] = useState("");
+    const [nomCirconscription, setnomCirconscription] = useState("");
 
     VerificationAuth();
 
@@ -74,7 +45,7 @@ function ChefCirconscriptionTopographique() {
 
     switch (currentPage) {
         case "PageRapportAct":
-            // pageContent = <RapportActivite />;
+            pageContent = <RapportActivite nomRegion={nomRegion} nomCirconscription={nomCirconscription} />;
             break;
 
         case "TravauxBornages":
@@ -168,11 +139,7 @@ function ChefCirconscriptionTopographique() {
     const [userId, setuserId] = useState(0);
     const [userCirconscriptionId, setuserCirconscriptionId] = useState(0);
 
-    const [nomUser, setnomUser] = useState("");
-    const [prenomUser, setprenomUser] = useState("");
-    const [telephone, settelephone] = useState("")
-    const [nomRegion, setnomRegion] = useState("");
-    const [nomCirconscription, setnomCirconscription] = useState("");
+
 
 
     useEffect(() => {
@@ -219,12 +186,19 @@ function ChefCirconscriptionTopographique() {
             });
     }
 
+    const [isOpen, setisOpen] = useState(true);
+
+    const FermetureBarLateral = () => {
+        setisOpen(!isOpen);
+    }
 
     return (
-        <div className="dashboard">
+        <div className={`dashboard ${isOpen ? 'open' : 'closed'}`}  >
             <aside className="search-wrap">
                 <div className="search">
-
+                    <svg style={{ cursor: 'pointer' }} onClick={FermetureBarLateral} xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-list-ul" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                    </svg>
                     <nav className='circonscr-header'>
                         <ol className="breadcrumb">
                             <li className="breadcrumb-item">{nomRegion}</li>
@@ -232,7 +206,6 @@ function ChefCirconscriptionTopographique() {
                             <li className="breadcrumb-item">{NomPage}</li>
                         </ol>
                     </nav>
-
                 </div>
 
                 <div className="user-actions">
@@ -245,14 +218,17 @@ function ChefCirconscriptionTopographique() {
             <header className="menu-wrap">
                 <figure className="user">
                     <div className="user-avatar">
+                        <img src={utilisateur} alt="utilisateur" />
                     </div>
-                    <figcaption>
-                        <p>{nomUser}</p>
-                        <p>{prenomUser}</p>
-                        <p>{telephone}</p>
-                    </figcaption>
+                    <div>
+                        <ul className='infoUserLateral'>
+                            <li>{nomUser}</li>
+                            <li>{prenomUser}</li>
+                            <li>{telephone}</li>
+                        </ul>
+                    </div>
                 </figure>
-
+                <button className='btn btn-primary btn-sm btnOpenCloseNavbar'>Gerer mon compte</button>
                 <NavigationChefCircTopo pageName={setNomPage} pageClicked={setCurrentPage} />
             </header>
 

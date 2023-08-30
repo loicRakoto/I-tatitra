@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import TableRapportActiviteCirtopo from '../../Tableaux/TableRapportActiviteCirtopo';
+import TableRapportActiviteRegionale from '../../Tableaux/TableRapportActiviteRegionale';
 
 
 
-function RapportActivite({ nomCirconscription, nomRegion }) {
+function RapportActiviteRegionale({ nomCirconscription, nomRegion }) {
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -54,12 +54,15 @@ function RapportActivite({ nomCirconscription, nomRegion }) {
     }), [userCirconscriptionId]);
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/ListeDateActiviteCirtopo/cirtopo', paramm).then(Response => {
-            setdate(Response.data);
+        if (userCirconscriptionId !== 0) {
+            axios.get('http://127.0.0.1:8000/api/ListeDateActiviteRegionale/region', paramm).then(Response => {
+                setdate(Response.data);
 
-        }).catch(error => {
-            // console.error(error);
-        })
+            }).catch(error => {
+                // console.error(error);
+            })
+        }
+
     }, [paramm]);
 
     return (
@@ -110,11 +113,11 @@ function RapportActivite({ nomCirconscription, nomRegion }) {
                 )}
 
                 <div className="row">
-                    <TableRapportActiviteCirtopo nomCirconscription={nomCirconscription} nomRegion={nomRegion} isLoading={isLoading} setIsLoading={setIsLoading} envoiDate={envoiDate} setetatTableaux={setetatTableaux} etatTableaux={etatTableaux} CirconscriptionId={userCirconscriptionId} />
+                    <TableRapportActiviteRegionale nomCirconscription={nomCirconscription} nomRegion={nomRegion} isLoading={isLoading} setIsLoading={setIsLoading} envoiDate={envoiDate} setetatTableaux={setetatTableaux} etatTableaux={etatTableaux} CirconscriptionId={userCirconscriptionId} />
                 </div>
             </div >
         </>
     )
 }
 
-export default RapportActivite
+export default RapportActiviteRegionale

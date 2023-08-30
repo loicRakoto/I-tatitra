@@ -2686,7 +2686,6 @@ class ChefCirconscriptionTopographique extends Controller
         $circonscriptionId = $request->utilisateurCirconscriptionId;
 
 
-
         $date = explode('/', $request->date);
         // Mois et année sélectionnés
         $mois = $date[0];
@@ -2752,10 +2751,6 @@ class ChefCirconscriptionTopographique extends Controller
             ->first();
 
         if ($dernierEnregistrement) {
-            // Vous pouvez accéder aux champs de l'enregistrement trouvé
-            // $valeurChamp1 = $dernierEnregistrement->champ1;
-            // $valeurChamp2 = $dernierEnregistrement->champ2;
-            // ...
 
             return response()->json(["last" => $dernierEnregistrement]);
             // Faites ce que vous souhaitez avec les valeurs de l'enregistrement

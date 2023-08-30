@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChefCirconscriptionTopographique;
+use App\Http\Controllers\ChefRegionTopographique;
 use App\Http\Controllers\CirconscriptionController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
@@ -30,6 +31,14 @@ Route::get('/circonscriptionDistrict', [CirconscriptionController::class, 'recup
 Route::get('/circonscriptionDistrict/infoUtilisateur', [CirconscriptionController::class, 'infoUtilisateur']);
 
 Route::get('/rapportActivite/cirtopo', [CirconscriptionController::class, 'activiteCirtopo']);
+Route::get('/rechercheRapportActiviteCirtopo/cirtopo', [CirconscriptionController::class, 'rechercheRapportActiviteCirtopo']);
+Route::get('/ListeDateActiviteCirtopo/cirtopo', [CirconscriptionController::class, 'ListeDateActiviteCirtopo']);
+
+
+Route::get('/rapportActivite/region', [ChefRegionTopographique::class, 'ListeActiviteRegion']);
+Route::get('/RechercheRapportActiviteRegionale/region', [ChefRegionTopographique::class, 'RechercheRapportActiviteRegionale']);
+Route::get('/ListeDateActiviteRegionale/region', [ChefRegionTopographique::class, 'ListeDateActiviteRegionale']);
+
 
 
 
