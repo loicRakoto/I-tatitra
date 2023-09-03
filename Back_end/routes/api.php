@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChefCirconscriptionTopographique;
 use App\Http\Controllers\ChefRegionTopographique;
 use App\Http\Controllers\CirconscriptionController;
+use App\Http\Controllers\DirecteurServiceTopographique;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -39,10 +40,19 @@ Route::get('/rapportActivite/region', [ChefRegionTopographique::class, 'ListeAct
 Route::get('/RechercheRapportActiviteRegionale/region', [ChefRegionTopographique::class, 'RechercheRapportActiviteRegionale']);
 Route::get('/ListeDateActiviteRegionale/region', [ChefRegionTopographique::class, 'ListeDateActiviteRegionale']);
 
+Route::get('/rapportActivite/nationale', [DirecteurServiceTopographique::class, 'ListeActiviteNationale']);
+Route::get('/RechercheRapportActiviteNationale/nationale', [DirecteurServiceTopographique::class, 'RechercheRapportActiviteNationale']);
+Route::get('/ListeDateActiviteNationale/nationale', [DirecteurServiceTopographique::class, 'ListeDateActiviteNationale']);
+
 
 
 
 Route::post('/Utilisateur/add', [UserController::class, 'store']);
+Route::get('/Utilisateur/showDemande', [UserController::class, 'showDemande']);
+Route::get('/Utilisateur/showAllMembres', [UserController::class, 'showAllMembres']);
+Route::post('/Utilisateur/acceptMembre', [UserController::class, 'acceptMembre']);
+Route::post('/Utilisateur/rejectMembre', [UserController::class, 'rejectMembre']);
+
 
 
 //Chef Circonscription Topographique

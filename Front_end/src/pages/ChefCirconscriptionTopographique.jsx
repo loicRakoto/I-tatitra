@@ -32,6 +32,7 @@ function ChefCirconscriptionTopographique() {
     const [telephone, settelephone] = useState("")
     const [nomRegion, setnomRegion] = useState("");
     const [nomCirconscription, setnomCirconscription] = useState("");
+    const [fonctionName, setfonctionName] = useState("");
 
     VerificationAuth();
 
@@ -179,6 +180,27 @@ function ChefCirconscriptionTopographique() {
                 settelephone(response.data.Telephone);
                 setnomRegion(response.data.NomRegion);
                 setnomCirconscription(response.data.NomCirconscription);
+                const fonctionId = response.data.fonction;
+
+                switch (fonctionId) {
+                    case 0:
+                        setfonctionName("Administrateur");
+                        break;
+                    case 1:
+                        setfonctionName("Directeur des Services Topographique");
+                        break;
+                    case 2:
+                        setfonctionName("Conservateur Nationale");
+                        break;
+                    case 3:
+                        setfonctionName("Chef Services Régional Topographique");
+                        break;
+
+                    default:
+                        setfonctionName("Chef Circonscription Topographique");
+                        break;
+                }
+
 
             })
             .catch(error => {
@@ -228,6 +250,7 @@ function ChefCirconscriptionTopographique() {
                         </ul>
                     </div>
                 </figure>
+                <div className='fonctionUserName'>{fonctionName}</div>
                 <button className='btn btn-primary btn-sm btnOpenCloseNavbar'>Gerer mon compte</button>
                 <NavigationChefCircTopo pageName={setNomPage} pageClicked={setCurrentPage} />
             </header>

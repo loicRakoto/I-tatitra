@@ -18,6 +18,7 @@ function ChefServiceRegionaleTopographique() {
     const [prenomUser, setprenomUser] = useState("");
     const [telephone, settelephone] = useState("")
     const [nomRegion, setnomRegion] = useState("");
+    const [fonctionName, setfonctionName] = useState("");
 
 
     VerificationAuth();
@@ -103,6 +104,26 @@ function ChefServiceRegionaleTopographique() {
                 setprenomUser(response.data.Prenom);
                 settelephone(response.data.Telephone);
                 setnomRegion(response.data.NomRegion);
+                const fonctionId = response.data.fonction;
+
+                switch (fonctionId) {
+                    case 0:
+                        setfonctionName("Administrateur");
+                        break;
+                    case 1:
+                        setfonctionName("Directeur des Services Topographique");
+                        break;
+                    case 2:
+                        setfonctionName("Conservateur Nationale");
+                        break;
+                    case 3:
+                        setfonctionName("Chef Services Régional Topographique");
+                        break;
+
+                    default:
+                        setfonctionName("Chef Circonscription Topographique");
+                        break;
+                }
 
             })
             .catch(error => {
@@ -154,6 +175,7 @@ function ChefServiceRegionaleTopographique() {
                         </ul>
                     </div>
                 </figure>
+                <div className='fonctionUserName'>{fonctionName}</div>
                 <button className='btn btn-primary btn-sm btnOpenCloseNavbar'>Gerer mon compte</button>
                 <NavigationChefRegionTopo pageName={setNomPage} pageClicked={setCurrentPage} />
             </header>

@@ -20,7 +20,12 @@ class CirconscriptionController extends Controller
      */
     public function recuperationRegion()
     {
-        $listeRegion = DB::table('circonscriptions')->select('NomRegion')->distinct()->get();
+        $listeRegion = DB::table('circonscriptions')
+            ->select('NomRegion')
+            ->distinct()
+            ->where('NomRegion', '!=', 'ALL')
+            ->get();
+
         return response()->json($listeRegion);
     }
 

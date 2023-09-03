@@ -100,11 +100,9 @@ class UserController extends Controller
 
                     case 3:
                         //Chef des Services Régional Topographique
-
                         $Region = DB::table('circonscriptions')->where('NomRegion', $request->region)->get();
                         $idRegion = $Region[0]->id;
                         $idcircons = $idRegion;
-
                         break;
 
                     default:
@@ -138,12 +136,51 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showDemande()
     {
+        $usersAttente = DB::table('users')
+            ->where('status', 0)
+            ->get();
+        return response()->json($usersAttente);
     }
+    /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showAllMembres()
+    {
+        $usersWithCirconscriptions = DB::table('users')
+            ->join('circonscriptions', 'users.circonscription_id', '=', 'circonscriptions.id')
+            ->where('status', 1)
+            ->get();
+        return response()->json($usersWithCirconscriptions);
+    }
+
+    public function acceptMembre(Request $request)
+    {
+        $idMembre = $request->idMembre;
+        $user = User::all();
+        $data = $user->find($idMembre);
+        $data->status = 1;
+        $data->update();
+
+        return response()->json(['Reponse' => "Accepter"]);
+    }
+
+    public function rejectMembre(Request $request)
+    {
+        $idMembre = $request->idMembre;
+        $user = User::all();
+        $data = $user->find($idMembre);
+        $data->delete();
+
+        return response()->json(['Reponse' => "Suppression"]);
+    }
+
+
 
     /**
      * Show the form for editing the specified resource.

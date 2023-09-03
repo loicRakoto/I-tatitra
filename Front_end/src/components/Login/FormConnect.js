@@ -327,7 +327,7 @@ function FormConnect(props) {
                         <label htmlFor="pass">Password</label>
                     </div>
                     <div className="input-field">
-                        <input type="submit" className="submit" value="Log in" />
+                        <input type="submit" className="submit" value="Connexion" />
                     </div>
                 </form>
             </div>

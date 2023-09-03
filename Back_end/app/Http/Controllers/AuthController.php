@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -30,6 +31,8 @@ class AuthController extends Controller
         } else {
 
             if (Auth()->attempt($request->only('email', 'password'))) {
+
+
 
                 $user = $request->user();
 
