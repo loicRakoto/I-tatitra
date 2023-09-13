@@ -351,10 +351,23 @@ td.nom-activite3 {
 /* TABLEAU DEMANDE D'ADHESION */
 
 table.tableDemande {
-    font-size: 14px;
+    font-size: 13px;
 }
 
 table.tableDemande thead {
     background-color: #2b8a9a;
     color: white;
+}
+
+button.boutonListeUser {
+    padding: 0.25rem 0.5rem;
+    border-radius: 50px;
+}
+
+.rdt_TableBody .ddDjnO {
+    flex-grow: 2;
+}
+
+.rdt_TableHead .ddDjnO {
+    flex-grow: 2;
 }

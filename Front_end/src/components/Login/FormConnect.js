@@ -90,7 +90,6 @@ function FormConnect(props) {
 
     const handleSubmitInscr = (event) => {
         event.preventDefault();
-        console.log(formDataInscription);
         axios.post('http://127.0.0.1:8000/api/Utilisateur/add', formDataInscription)
             .then((response) => {
                 setaffichageNotification(true);
@@ -126,6 +125,8 @@ function FormConnect(props) {
 
 
     //  C O N N E X I O N  A  L  A P P L I C A T I O N
+
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -202,14 +203,19 @@ function FormConnect(props) {
                             });
                     }, 3000); // Attendre 5000 millisecondes (5 secondes)
                 }
+
+                else if (response.data.status === "208") {
+                    setnotification2(["Vous avez déja envoyer une demande d'adhésion, Veuillez attendre la confirmation de l'administrateur"]);
+                    setstatusReponse2(response.data.status);
+                }
+                else if (response.data.status === "403") {
+                    setnotification2(["Accès interdit. Votre compte n'a pas l'autorisation requise."]);
+                    setstatusReponse2(response.data.status);
+                }
                 else {
-                    console.log("Mots de passe ou email incorrect");
                     setnotification2(["Mots de passe ou email incorrect"]);
                     setstatusReponse2(response.data.status);
-
                 }
-
-
             }
 
         } catch (error) {
@@ -235,9 +241,9 @@ function FormConnect(props) {
                     </div>
 
                     <div className="input-group input-group-sm mb-3">
-                        <input onChange={handleInputInscrChange} type="text" name='cin' className="form-control" placeholder="CIN" aria-label="Username" />
+                        <input maxLength={12} onChange={handleInputInscrChange} type="text" name='cin' className="form-control" placeholder="CIN" aria-label="Username" />
                         <span className="input-group-text"></span>
-                        <input onChange={handleInputInscrChange} type="text" name='numero' className="form-control" placeholder="Numéro télephone" aria-label="Server" />
+                        <input maxLength={10} onChange={handleInputInscrChange} type="text" name='numero' className="form-control" placeholder="Numéro télephone" aria-label="Server" />
                     </div>
 
                     <div className="input-group input-group-sm mb-3">

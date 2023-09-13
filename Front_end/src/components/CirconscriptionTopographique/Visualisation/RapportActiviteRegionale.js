@@ -63,7 +63,7 @@ function RapportActiviteRegionale({ nomCirconscription, nomRegion }) {
             })
         }
 
-    }, [paramm]);
+    }, [paramm, userCirconscriptionId]);
 
     return (
         <>

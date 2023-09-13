@@ -52,6 +52,9 @@ Route::get('/Utilisateur/showDemande', [UserController::class, 'showDemande']);
 Route::get('/Utilisateur/showAllMembres', [UserController::class, 'showAllMembres']);
 Route::post('/Utilisateur/acceptMembre', [UserController::class, 'acceptMembre']);
 Route::post('/Utilisateur/rejectMembre', [UserController::class, 'rejectMembre']);
+Route::post('/Utilisateur/blockMembre', [UserController::class, 'blockMembre']);
+Route::post('/Utilisateur/allowMembre', [UserController::class, 'allowMembre']);
+Route::post('/Utilisateur/findMembre', [UserController::class, 'findMembre']);
 
 
 

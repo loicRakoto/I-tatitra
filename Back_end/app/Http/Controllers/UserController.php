@@ -39,8 +39,8 @@ class UserController extends Controller
         $validation = Validator::make(request()->all(), [
             'nom' => 'required',
             'prenom' => 'required',
-            'cin' => 'required',
-            'numero' => 'required',
+            'cin' => 'required|integer',
+            'numero' => 'required|integer',
             'email' => 'required|email',
             'password' => 'required',
             'confirmpassword' => 'required|same:password',
@@ -53,7 +53,10 @@ class UserController extends Controller
             'email.email' => 'Le champ email doit être une adresse email valide.',
             'password.required' => 'Le champ mot de passe est requis.',
             'confirmpassword.required' => 'Le champ confirmation du mot de passe est requis.',
+            'fonction.required' => "Veuillez choisir une fonction.",
             'confirmpassword.same' => 'Les champs mot de passe et confirmation du mot de passe doivent être identiques.',
+            'numero.integer' => 'Le champ numéro doit être un entier.',
+            'cin.integer' => 'Le champ CIN doit être un entier.',
         ]);
 
         if ($validation->fails()) {
@@ -152,9 +155,26 @@ class UserController extends Controller
      */
     public function showAllMembres()
     {
+        //Sauf administrateur
         $usersWithCirconscriptions = DB::table('users')
             ->join('circonscriptions', 'users.circonscription_id', '=', 'circonscriptions.id')
+            ->select(
+                'users.id as user_id',
+                'circonscriptions.id as circonscription_id',
+                'users.Nom',
+                'users.Prenom',
+                'users.Telephone',
+                'users.CIN',
+                'users.email',
+                'users.Nom',
+                'users.status',
+                'users.fonction',
+                'circonscriptions.NomRegion',
+                'circonscriptions.NomCirconscription'
+            )
+            ->where('users.fonction', '<>', 0)
             ->where('status', 1)
+            ->orWhere('status', 2)
             ->get();
         return response()->json($usersWithCirconscriptions);
     }
@@ -178,6 +198,55 @@ class UserController extends Controller
         $data->delete();
 
         return response()->json(['Reponse' => "Suppression"]);
+    }
+
+    public function blockMembre(Request $request)
+    {
+        $idMembre = $request->idMembre;
+        $user = User::all();
+        $data = $user->find($idMembre);
+        $data->status = 2;
+        $data->update();
+
+        return response()->json(['Reponse' => "Bloquer"]);
+    }
+
+    public function allowMembre(Request $request)
+    {
+        $idMembre = $request->idMembre;
+        $user = User::all();
+        $data = $user->find($idMembre);
+        $data->status = 1;
+        $data->update();
+
+        return response()->json(['Reponse' => "Autoriser"]);
+    }
+
+    public function findMembre(Request $request)
+    {
+        $idMembre = $request->idMembre;
+        $data = DB::table('users')
+            ->join('circonscriptions', 'users.circonscription_id', '=', 'circonscriptions.id')
+            ->select(
+                'users.id as user_id',
+                'circonscriptions.id as circonscription_id',
+                'users.Nom',
+                'users.Prenom',
+                'users.Telephone',
+                'users.CIN',
+                'users.email',
+                'users.Nom',
+                'users.status',
+                'users.fonction',
+                'circonscriptions.NomRegion',
+                'circonscriptions.NomCirconscription',
+                'users.updated_at'
+            )
+            ->where('users.id', $idMembre)
+            ->get();
+
+
+        return response()->json(['Reponse' => $data[0]]);
     }
 
 

@@ -165,12 +165,6 @@ function TravauxBornage() {
                                     </button>
                                 ) : null
                             }
-
-
-
-
-
-
                         </div>
                         <div className="col" >
                             <div className='row'>

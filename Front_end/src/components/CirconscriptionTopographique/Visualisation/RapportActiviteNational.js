@@ -76,9 +76,8 @@ function RapportActiviteNational() {
 
                     <div className="row">
                         <div className="col">
-
                         </div>
-                        <div className="col" >
+                        <div className="col-9" >
                             <div className='row'>
                                 <div className='col'></div>
                                 <div className="col input-group input-group-sm ">

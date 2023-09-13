@@ -37,8 +37,6 @@ export default function Login() {
                         <div className="input-box">
                             <header className="head-formu-cnct mt-4"> {isInscriptionVisible ? "Inscription" : 'Se connecter'} </header>
 
-
-
                             <FormConnect formUse={isInscriptionVisible}></FormConnect>
 
                             <div className="signin">
