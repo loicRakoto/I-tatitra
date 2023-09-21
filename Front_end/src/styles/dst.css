@@ -371,3 +371,13 @@ button.boutonListeUser {
 .rdt_TableHead .ddDjnO {
     flex-grow: 2;
 }
+
+#offcanvasRight {
+    width: 550px;
+    font-family: monospace;
+}
+
+.titreAccordionMenu {
+    margin-left: 20px;
+    font-family: cursive;
+}

@@ -212,11 +212,11 @@ function TableTravauxReperage({ isLoading, setIsLoading, CirconscriptionId, etat
                             </tr>
                             <tr>
                                 <th className='total-tableau'>Total</th>
-                                <td>a6 {a6}</td>
-                                <td>b6 {b6}</td>
-                                <td>c6 {c6}</td>
-                                <td>d6 {d6}</td>
-                                <td>e6 {e6}</td>
+                                <td> {a6}</td>
+                                <td> {b6}</td>
+                                <td> {c6}</td>
+                                <td> {d6}</td>
+                                <td> {e6}</td>
                             </tr>
 
                         </tbody>

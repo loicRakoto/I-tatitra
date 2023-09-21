@@ -39,8 +39,8 @@ class UserController extends Controller
         $validation = Validator::make(request()->all(), [
             'nom' => 'required',
             'prenom' => 'required',
-            'cin' => 'required|integer',
-            'numero' => 'required|integer',
+            'cin' => 'required',
+            'numero' => 'required',
             'email' => 'required|email',
             'password' => 'required',
             'confirmpassword' => 'required|same:password',
@@ -49,14 +49,18 @@ class UserController extends Controller
             // 'district' => 'required'
 
         ], [
+            'nom.required' => 'Le champ nom est requis.',
+            'prenom.required' => 'Le champ prenom est requis.',
+            'cin.required' => 'Le champ cin est requis.',
             'email.required' => 'Le champ email est requis.',
+            'numero.required' => 'Le champ numero est requis.',
             'email.email' => 'Le champ email doit être une adresse email valide.',
             'password.required' => 'Le champ mot de passe est requis.',
             'confirmpassword.required' => 'Le champ confirmation du mot de passe est requis.',
             'fonction.required' => "Veuillez choisir une fonction.",
             'confirmpassword.same' => 'Les champs mot de passe et confirmation du mot de passe doivent être identiques.',
-            'numero.integer' => 'Le champ numéro doit être un entier.',
-            'cin.integer' => 'Le champ CIN doit être un entier.',
+            // 'numero.integer' => 'Le champ numéro doit être un entier.',
+            // 'cin.integer' => 'Le champ CIN doit être un entier.',
         ]);
 
         if ($validation->fails()) {

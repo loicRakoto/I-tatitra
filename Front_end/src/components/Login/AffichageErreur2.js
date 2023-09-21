@@ -18,12 +18,17 @@ export default function AffichageErreur(props) {
                     <button onClick={handleButtonClick} type="button" className={`btn-close`} data-bs-dismiss="toast"></button>
                 </div>
                 <div className="toast-body">
-                    <div className={` ${props.statusRep === '200' ? "alert alert-success" : "alert alert-danger"} `}>
-                        <ul>
+                    <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }} className={` ${props.statusRep === '200' ? "alert alert-success" : "alert alert-danger"} `}>
+                        {
+                            props.statusRep === '200' ? (<div className="spinner-border text-success" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>) : null
+                        }
+                        <div>
                             {message.map((messages, index) => (
-                                <li key={index}>{messages}</li>
+                                <div style={{ listStyle: 'none' }} key={index}>{messages}</div>
                             ))}
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -201,7 +201,7 @@ function FormConnect(props) {
                             .catch(error => {
                                 console.error('Erreur lors de la récupération des informations utilisateur:', error);
                             });
-                    }, 3000); // Attendre 5000 millisecondes (5 secondes)
+                    }, 3000); // Attendre 3000 millisecondes (5 secondes)
                 }
 
                 else if (response.data.status === "208") {
@@ -329,7 +329,7 @@ function FormConnect(props) {
                         <label htmlFor="mail">Email</label>
                     </div>
                     <div className="input-field">
-                        <input name="pass" type="pass" className="input" id="pass" onChange={e => setPassword(e.target.value)} />
+                        <input name="pass" type="password" className="input" id="pass" onChange={e => setPassword(e.target.value)} />
                         <label htmlFor="pass">Password</label>
                     </div>
                     <div className="input-field">
